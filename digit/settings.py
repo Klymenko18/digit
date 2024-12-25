@@ -53,7 +53,7 @@ DATABASES = {
         'NAME': 'digit_db',        # Назва бази даних
         'USER': 'postgres',         # Ім'я користувача PostgreSQL
         'PASSWORD': '137955137955', # Пароль користувача PostgreSQL
-        'HOST': 'localhost',        # Хост сервера
+        'HOST': 'db',        # Хост сервера
         'PORT': '5432',             # Порт PostgreSQL
     }
 }
