@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product List</title>
+    <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+    <h1>Products</h1>
+    <div id="product-list">
+        <!-- Динамічний список продуктів -->
+    </div>
+    <button onclick="window.location.href='/products/create/'">Add New Product</button>
+
+    <script>
+        fetch('/api/products/')
+            .then(response => response.json())
+            .then(data => {
+                const listContainer = document.getElementById('product-list');
+                data.forEach(product => {
+                    const item = document.createElement('div');
+                    item.innerHTML = `
+                        <h3>${product.name}</h3>
+                        <p>Price: $${product.price}</p>
+                        <p>Category: ${product.category}</p>
+                        <button onclick="window.location.href='/products/${product.id}/edit/'">Edit</button>
+                        <button onclick="deleteProduct(${product.id})">Delete</button>
+                    `;
+                    listContainer.appendChild(item);
+                });
+            });
+
+        function deleteProduct(id) {
+            fetch(`/api/products/${id}/`, { method: 'DELETE' })
+                .then(() => location.reload())
+                .catch(err => console.error(err));
+        }
+    </script>
+</body>
+</html>

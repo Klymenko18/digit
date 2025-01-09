@@ -1,21 +1,25 @@
-version: '3.8'
-
 services:
   web:
     build: .
-    command: python manage.py runserver 0.0.0.0:8000
+    command: python manage.py runserver 0.0.0.0:8081
     volumes:
       - .:/app
     ports:
-      - "8000:8000"
+      - "8081:8081"  # Змінено порт
     depends_on:
       - db
+    environment:
+      - DJANGO_SETTINGS_MODULE=digit.settings  # Укажіть правильний файл налаштувань
 
   db:
-    image: postgres
+    image: postgres:13  # Вкажіть конкретну версію Postgres для стабільності
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: 137955137955
       POSTGRES_DB: digit_db
     ports:
       - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data  # Для збереження даних навіть після перезапуску
+volumes:
+  postgres_data:

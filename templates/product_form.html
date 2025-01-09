@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create/Edit Product</title>
+    <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+    <h1 id="form-title">Create/Edit Product</h1>
+    <form id="product-form">
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" required>
+        <label for="price">Price:</label>
+        <input type="number" id="price" name="price" required>
+        <label for="category">Category:</label>
+        <select id="category" name="category" required></select>
+        <button type="submit">Save</button>
+    </form>
+
+    <script>
+        const productId = window.location.pathname.split('/')[2];
+
+        fetch('/api/categories/')
+            .then(response => response.json())
+            .then(categories => {
+                const categorySelect = document.getElementById('category');
+                categories.forEach(category => {
+                    const option = document.createElement('option');
+                    option.value = category.id;
+                    option.text = category.name;
+                    categorySelect.appendChild(option);
+                });
+            });
+
+        if (productId) {
+            fetch(`/api/products/${productId}/`)
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('name').value = data.name;
+                    document.getElementById('price').value = data.price;
+                    document.getElementById('category').value = data.category;
+                });
+        }
+
+        document.getElementById('product-form').addEventListener('submit', function (event) {
+            event.preventDefault();
+            const method = productId ? 'PUT' : 'POST';
+            const url = productId ? `/api/products/${productId}/` : '/api/products/';
+            const body = JSON.stringify({
+                name: document.getElementById('name').value,
+                price: document.getElementById('price').value,
+                category: document.getElementById('category').value
+            });
+
+            fetch(url, {
+                method: method,
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: body
+            })
+                .then(() => window.location.href = '/products/')
+                .catch(err => console.error(err));
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Category List</title>
+    <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+    <h1>Categories</h1>
+    <div id="category-list">
+        <!-- Динамічний список категорій -->
+    </div>
+    <button onclick="window.location.href='/categories/create/'">Add New Category</button>
+
+    <script>
+        fetch('/api/categories/')
+            .then(response => response.json())
+            .then(data => {
+                const listContainer = document.getElementById('category-list');
+                data.forEach(category => {
+                    const item = document.createElement('div');
+                    item.innerHTML = `
+                        <h3>${category.name}</h3>
+                        <p>${category.description}</p>
+                        <button onclick="window.location.href='/categories/${category.id}/edit/'">Edit</button>
+                        <button onclick="deleteCategory(${category.id})">Delete</button>
+                    `;
+                    listContainer.appendChild(item);
+                });
+            });
+
+        function deleteCategory(id) {
+            fetch(`/api/categories/${id}/`, { method: 'DELETE' })
+                .then(() => location.reload())
+                .catch(err => console.error(err));
+        }
+    </script>
+</body>
+</html>

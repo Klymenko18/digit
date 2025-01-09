@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create/Edit Category</title>
+    <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+    <h1 id="form-title">Create/Edit Category</h1>
+    <form id="category-form">
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" required>
+        <label for="description">Description:</label>
+        <textarea id="description" name="description" required></textarea>
+        <button type="submit">Save</button>
+    </form>
+
+    <script>
+        const categoryId = window.location.pathname.split('/')[2];
+
+        if (categoryId) {
+            fetch(`/api/categories/${categoryId}/`)
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('name').value = data.name;
+                    document.getElementById('description').value = data.description;
+                });
+        }
+
+        document.getElementById('category-form').addEventListener('submit', function (event) {
+            event.preventDefault();
+            const method = categoryId ? 'PUT' : 'POST';
+            const url = categoryId ? `/api/categories/${categoryId}/` : '/api/categories/';
+            const body = JSON.stringify({
+                name: document.getElementById('name').value,
+                description: document.getElementById('description').value
+            });
+
+            fetch(url, {
+                method: method,
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: body
+            })
+                .then(() => window.location.href = '/categories/')
+                .catch(err => console.error(err));
+        });
+    </script>
+</body>
+</html>
