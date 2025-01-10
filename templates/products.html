@@ -4,15 +4,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Products</title>
-    {% load static %} <!-- Додано для завантаження static тегу -->
-    <script src="{% static 'ajax.js' %}"></script>
+    {% load static %}
+    <script src="{% static 'js/cart.js' %}" defer></script>
 </head>
 <body>
     <h1>Products</h1>
-    <button id="add-product-btn">Add Product</button>
     <ul id="product-list">
-        <!-- Продукти будуть завантажені через AJAX -->
+        {% for product in products %}
+        <li>
+            <h3>{{ product.name }}</h3>
+            <p>Price: ${{ product.price }}</p>
+            <button class="add-to-cart-btn" data-id="{{ product.id }}">Add to Cart</button>
+        </li>
+        {% endfor %}
     </ul>
-    <a href="/">Back to Home</a>
+    <a href="/cart/">Go to Cart</a>
 </body>
 </html>
