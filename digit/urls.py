@@ -12,5 +12,5 @@ urlpatterns = [
     path('orders/', include('orders.urls')),  # Замовлення
     path('accounts/', include('accounts.urls')),  # Акаунти
     path('categories/', TemplateView.as_view(template_name='categories.html'), name='category-list-template'),
-    path('categories/template/', TemplateView.as_view(template_name='categories.html'), name='category-list-template'),  # Шлях для відображення шаблону категорій
+    path('categories/template/', TemplateView.as_view(template_name='categories.html'), name='category-list-template'),
 ]

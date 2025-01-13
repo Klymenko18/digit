@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Wishlist</title>
+    <link rel="stylesheet" href="{% static 'css/wishlist.css' %}">
+    <script src="{% static 'js/wishlist.js' %}" defer></script>
+</head>
+
+<body>
+    <header>
+        <div class="header-container">
+            <h1>Your Wishlist</h1>
+            <nav>
+                <ul>
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/products/">Products</a></li>
+                    <li><a href="/cart/">Cart</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <section class="wishlist-container">
+        <h2>Products in Your Wishlist</h2>
+        <ul id="wishlist-list">
+            {% if wishlist %}
+                {% for item in wishlist %}
+                    <li class="wishlist-item">
+                        <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}" class="product-image">
+                        <div class="product-details">
+                            <h3>{{ item.product.name }}</h3>
+                            <p>{{ item.product.description }}</p>
+                            <p class="product-price">{{ item.product.price }}$</p>
+                            <button class="remove-btn" onclick="removeFromWishlist({{ item.id }})">Remove</button>
+                        </div>
+                    </li>
+                {% endfor %}
+            {% else %}
+                <li>No items in your wishlist.</li>
+            {% endif %}
+        </ul>
+    </section>
+
+    <footer>
+        <p>&copy; 2025 Your Company</p>
+    </footer>
+</body>
+
+</html>
