@@ -5,8 +5,10 @@ from django.views.generic import TemplateView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/cart/', include('cart.urls')),
-    path('products/', product_list, name='product-list'),
-    path('cart/', TemplateView.as_view(template_name="cart.html"), name='cart'),
-    path('', TemplateView.as_view(template_name="index.html"), name='home'),
+    path('api/cart/', include('cart.urls')),  # API кошика
+    path('products/', product_list, name='product-list'),  # Перелік продуктів
+    path('cart/', TemplateView.as_view(template_name="cart.html"), name='cart'),  # Сторінка кошика
+    path('', TemplateView.as_view(template_name="index.html"), name='home'),  # Головна сторінка
+    path('orders/', include('orders.urls')),  # Замовлення
+    path('accounts/', include('accounts.urls')),  # Акаунти
 ]

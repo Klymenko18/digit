@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order History</title>
+    {% load static %}
+    <script src="{% static 'js/order-history.js' %}" defer></script>
+</head>
+<body>
+    <h1>Your Order History</h1>
+    {% if user.is_authenticated %}
+        <ul id="order-list">
+            <!-- JavaScript will populate this with orders -->
+        </ul>
+    {% else %}
+        <p>Please <a href="/login/">log in</a> to view your order history.</p>
+    {% endif %}
+    <a href="/">Back to Home</a>
+</body>
+</html>
