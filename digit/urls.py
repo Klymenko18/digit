@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.urls import include, path
-from products.views import product_list
+from products.views import product_list, CategoryListView
 from django.views.generic import TemplateView
 
 urlpatterns = [
@@ -11,4 +11,6 @@ urlpatterns = [
     path('', TemplateView.as_view(template_name="index.html"), name='home'),  # Головна сторінка
     path('orders/', include('orders.urls')),  # Замовлення
     path('accounts/', include('accounts.urls')),  # Акаунти
+    path('categories/', TemplateView.as_view(template_name='categories.html'), name='category-list-template'),
+    path('categories/template/', TemplateView.as_view(template_name='categories.html'), name='category-list-template'),  # Шлях для відображення шаблону категорій
 ]

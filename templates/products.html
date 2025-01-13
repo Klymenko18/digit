@@ -4,20 +4,27 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Products</title>
-    {% load static %}
-    <script src="{% static 'js/cart.js' %}" defer></script>
+    <script src="/static/js/main.js" defer></script>
 </head>
 <body>
     <h1>Products</h1>
-    <ul id="product-list">
+
+    <!-- Пошук товарів -->
+    <h2>Search Products</h2>
+    <form action="/products/" method="get">
+        <input type="text" name="search" id="search" placeholder="Search by name" value="{{ request.GET.search }}">
+        <input type="text" name="category" id="category" placeholder="Category" value="{{ request.GET.category }}">
+        <input type="number" name="min_price" id="min_price" placeholder="Min Price" value="{{ request.GET.min_price }}">
+        <input type="number" name="max_price" id="max_price" placeholder="Max Price" value="{{ request.GET.max_price }}">
+        <button type="submit">Search</button>
+    </form>
+
+    <ul id="products-list">
         {% for product in products %}
-        <li>
-            <h3>{{ product.name }}</h3>
-            <p>Price: ${{ product.price }}</p>
-            <button class="add-to-cart-btn" data-id="{{ product.id }}">Add to Cart</button>
-        </li>
+            <li>{{ product.name }} - {{ product.price }}$</li>
+        {% empty %}
+            <li>No products available</li>
         {% endfor %}
     </ul>
-    <a href="/cart/">Go to Cart</a>
 </body>
 </html>

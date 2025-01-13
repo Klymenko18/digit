@@ -1,3 +1,5 @@
+version: '3.8'
+
 services:
   web:
     build: .
@@ -8,6 +10,7 @@ services:
       - "8081:8081"
     depends_on:
       - db
+      - redis  
     environment:
       - DJANGO_SETTINGS_MODULE=digit.settings
 
@@ -21,6 +24,11 @@ services:
       - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
+
+  redis:  # додано Redis
+    image: redis:alpine
+    ports:
+      - "6379:6379"
 
 volumes:
   postgres_data:

@@ -8,10 +8,12 @@
 </head>
 <body>
     <h1>Categories</h1>
-    <ul id="categories-list"></ul>
-
-    <h2>Create Category</h2>
-    <input type="text" id="category-name" placeholder="Category name">
-    <button onclick="createCategory()">Create</button>
+    <ul id="categories-list">
+        {% for category in categories %}
+            <li>{{ category.name }}</li>
+        {% empty %}
+            <li>No categories available</li>
+        {% endfor %}
+    </ul>
 </body>
 </html>

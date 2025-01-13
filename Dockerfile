@@ -10,11 +10,14 @@ COPY requirements.txt /app/
 # Встановлюємо залежності
 RUN pip install --no-cache-dir -r requirements.txt
 
+# Додано встановлення django-redis
+RUN pip install django-redis
+
 # Копіюємо решту коду проекту
 COPY . /app/
 
 # Відкриваємо порт
-EXPOSE 8081 
+EXPOSE 8081
 
 # Команда для запуску сервера
 CMD ["python", "manage.py", "runserver", "0.0.0.0:8081"]
