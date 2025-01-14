@@ -1,0 +1,33 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile</title>
+    <link rel="stylesheet" href="{% static 'css/profile.css' %}">
+</head>
+<body>
+    <header>
+        <h1>Welcome to Your Profile, {{ user.username }}</h1>
+        <nav>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/wishlist/">Wishlist</a></li>
+                <li><a href="/cart/">Cart</a></li>
+                <li><a href="/products/">Products</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section>
+        <h2>Your Information</h2>
+        <ul>
+            <li>Username: {{ user.username }}</li>
+            <li>Email: {{ user.email }}</li>
+            <li>Date Joined: {{ user.date_joined }}</li>
+        </ul>
+        <a href="/accounts/logout/">Logout</a>
+    </section>
+</body>
+</html>

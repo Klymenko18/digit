@@ -1,25 +1,46 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home</title>
-    <link rel="stylesheet" href="styles.css"> <!-- Якщо потрібно, додайте CSS -->
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
 </head>
 <body>
-    <h1>Welcome to the Home Page</h1>
-    <nav>
-        <ul>
-            <li><a href="/categories/template/">Categories</a></li>
-            <li><a href="/products/">Products</a></li>
-            <li><a href="/cart/">Cart</a></li>
-            <li><a href="/wishlist/">Wishlist</a></li> <!-- Додано посилання на Wishlist -->
-        </ul>        
-    </nav>
+    <header>
+        <h1>Welcome to the Home Page</h1>
+        <nav>
+            <ul>
+                <li><a href="/categories/template/">Categories</a></li>
+                <li><a href="/products/">Products</a></li>
+                <li><a href="/cart/">Cart</a></li>
+                <li><a href="/wishlist/page/">Wishlist</a></li>
+            </ul>        
+        </nav>
+    </header>
 
-    <div class="auth-buttons">
-        <button onclick="window.location.href='/accounts/login-page/'">Login</button>
-        <button onclick="window.location.href='/accounts/register-page/'">Register</button>
-    </div>
+    <main>
+        <div class="auth-section">
+            {% if user.is_authenticated %}
+                <div class="user-profile">
+                    <span>Welcome, {{ user.username }}</span>
+                    <a href="/accounts/logout/" class="logout-btn">Logout</a>
+                    <a href="/accounts/profile/" class="profile-link">
+                        <img src="{% static 'img/profile-icon.png' %}" alt="Profile" class="profile-icon">
+                    </a>
+                </div>
+            {% else %}
+                <div class="auth-buttons">
+                    <button onclick="window.location.href='/accounts/login-page/'" class="auth-btn">Login</button>
+                    <button onclick="window.location.href='/accounts/register-page/'" class="auth-btn">Register</button>
+                </div>
+            {% endif %}
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Your Company</p>
+    </footer>
 </body>
 </html>

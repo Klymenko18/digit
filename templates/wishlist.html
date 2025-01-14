@@ -1,6 +1,6 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -25,21 +25,32 @@
 
     <section class="wishlist-container">
         <h2>Products in Your Wishlist</h2>
+        {% if messages %}
+            <ul class="messages">
+                {% for message in messages %}
+                    <li class="{{ message.tags }}">{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
         <ul id="wishlist-list">
             {% if wishlist %}
                 {% for item in wishlist %}
                     <li class="wishlist-item">
-                        <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}" class="product-image">
+                        <img src="{{ item.product.image.url|default:'/static/img/default-image.png' }}" alt="{{ item.product.name }}" class="product-image">
                         <div class="product-details">
                             <h3>{{ item.product.name }}</h3>
                             <p>{{ item.product.description }}</p>
                             <p class="product-price">{{ item.product.price }}$</p>
-                            <button class="remove-btn" onclick="removeFromWishlist({{ item.id }})">Remove</button>
+                            <form method="POST" action="{% url 'wishlist-remove' item.id %}">
+                                {% csrf_token %}
+                                <button type="submit">Remove</button>
+                            </form>
                         </div>
                     </li>
                 {% endfor %}
             {% else %}
-                <li>No items in your wishlist.</li>
+                <p>Your wishlist is empty.</p>
+                <a href="/products/" class="btn">Browse Products</a>
             {% endif %}
         </ul>
     </section>

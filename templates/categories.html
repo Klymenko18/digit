@@ -1,19 +1,47 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Categories</title>
-    <script src="/static/js/main.js" defer></script>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
 </head>
 <body>
-    <h1>Categories</h1>
-    <ul id="categories-list">
-        {% for category in categories %}
-            <li>{{ category.name }}</li>
-        {% empty %}
-            <li>No categories available</li>
-        {% endfor %}
-    </ul>
+    <header>
+        <h1>Categories</h1>
+        <nav>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/products/">Products</a></li>
+                <li><a href="/cart/">Cart</a></li>
+                <li><a href="/wishlist/page/">Wishlist</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section class="categories-section">
+            <h2>Available Categories</h2>
+            {% if categories %}
+                <ul class="categories-list">
+                    {% for category in categories %}
+                        <li>
+                            <a href="{% url 'category-detail' category.id %}">
+                                <img src="{{ category.image.url }}" alt="{{ category.name }}" class="category-image">
+                                <h3>{{ category.name }}</h3>
+                            </a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p>No categories available at the moment.</p>
+            {% endif %}
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Your Company</p>
+    </footer>
 </body>
 </html>
