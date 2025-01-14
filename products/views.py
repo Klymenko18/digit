@@ -1,16 +1,24 @@
 from rest_framework import generics
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.core.cache import cache
 from .models import Category, Product
 from .serializers import CategorySerializer, ProductSerializer
-from django.views.decorators.cache import cache_page
+from django.views import View
+
+class CategoryProductsView(View):
+    def get(self, request, category_id):
+        category = get_object_or_404(Category, id=category_id)
+        products = Product.objects.filter(category=category)
+        return render(request, 'category_products.html', {
+            'category': category,
+            'products': products
+        })
 
 class CategoryListView(generics.ListCreateAPIView):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
 
     def get(self, request, *args, **kwargs):
-        # Отримуємо список категорій з кешу або бази
         cache_key = 'category_list'
         categories = cache.get(cache_key)
 
@@ -29,7 +37,6 @@ class CategoryDetailView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = CategorySerializer
 
 def product_list(request):
-    # Отримуємо список продуктів з кешу
     products = cache.get('product_list')
     
     if not products:
