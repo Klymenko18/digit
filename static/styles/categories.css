@@ -1,17 +1,73 @@
-.layout {
-    display: flex;
+/* Загальний стиль для сторінки */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #1e1e1e;
+    color: white;
 }
 
+h1 {
+    margin: 20px 0;
+}
+
+nav {
+    background-color: #333;
+    color: white;
+    padding: 10px 0;
+}
+
+nav a {
+    color: white;
+    text-decoration: none;
+    margin-right: 15px;
+    font-weight: bold;
+    transition: color 0.3s;
+}
+
+nav a:hover {
+    color: #007bff;
+}
+
+/* Іконка профілю */
+.profile-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 1px solid #ddd;
+    transition: transform 0.3s;
+}
+
+.profile-icon:hover {
+    transform: scale(1.1);
+}
+
+/* Кнопки авторизації */
+.auth-btn {
+    color: white;
+    text-decoration: none;
+    margin-left: 10px;
+    font-size: 14px;
+    font-weight: bold;
+    transition: color 0.3s;
+}
+
+.auth-btn:hover {
+    color: #007bff;
+}
+
+/* Sidebar стилі */
 .sidebar {
-    width: 250px;
-    padding: 10px;
-    background-color: #f8f8f8;
-    border-right: 1px solid #ddd;
+    width: 20%;
+    background-color: #292929;
+    padding: 20px;
+    height: 100vh;
+    float: left;
 }
 
 .sidebar h2 {
-    font-size: 18px;
-    margin-bottom: 15px;
+    margin-bottom: 20px;
+    color: #fff;
 }
 
 .category-list {
@@ -20,25 +76,33 @@
 }
 
 .category-list li {
-    margin-bottom: 10px;
+    margin: 10px 0;
 }
 
 .category-list li a {
+    color: white;
     text-decoration: none;
-    color: #333;
-    display: flex;
-    align-items: center;
+    transition: color 0.3s;
 }
 
 .category-list li a:hover {
     color: #007bff;
 }
 
-.category-list .category-icon {
-    width: 24px;
-    height: 24px;
-    margin-right: 10px;
-    background-color: #ddd;
-    border-radius: 50%;
-    display: inline-block;
+/* Main content */
+.main-content {
+    margin-left: 20%;
+    padding: 20px;
+    height: 100vh;
+}
+
+/* Footer */
+footer {
+    background-color: #333;
+    color: white;
+    text-align: center;
+    padding: 10px 0;
+    position: relative;
+    bottom: 0;
+    width: 100%;
 }

@@ -26,15 +26,22 @@
                 <ul>
                     {% for product in products %}
                         <li>
-                            <a href="/products/{{ product.id }}/">
-                                {% if product.image %}
-                                    <img src="{{ product.image.url }}" alt="{{ product.name }}">
-                                {% else %}
-                                    <img src="{% static 'img/placeholder.png' %}" alt="No image available">
-                                {% endif %}
-                                <h3>{{ product.name }}</h3>
-                                <p>{{ product.price }} $</p>
-                            </a>
+                            {% if product.image %}
+                                <img src="{{ product.image.url }}" alt="{{ product.name }}">
+                            {% else %}
+                                <img src="{% static 'img/placeholder.png' %}" alt="No image available">
+                            {% endif %}
+                            <h3>{{ product.name }}</h3>
+                            <p>{{ product.price }} $</p>
+
+                            {% if user.is_authenticated %}
+                                <form method="get" action="{% url 'cart-add' product.id %}">
+                                    <button type="submit">Add to Cart</button>
+                                </form>
+                                <form method="get" action="/wishlist/add/{{ product.id }}/">
+                                    <button type="submit">Add to Wishlist</button>
+                                </form>
+                            {% endif %}
                         </li>
                     {% endfor %}
                 </ul>
