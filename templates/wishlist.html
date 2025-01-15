@@ -8,7 +8,6 @@
     <link rel="stylesheet" href="{% static 'css/wishlist.css' %}">
     <script src="{% static 'js/wishlist.js' %}" defer></script>
 </head>
-
 <body>
     <header>
         <div class="header-container">
@@ -41,10 +40,16 @@
                             <h3>{{ item.product.name }}</h3>
                             <p>{{ item.product.description }}</p>
                             <p class="product-price">{{ item.product.price }}$</p>
-                            <form method="POST" action="{% url 'wishlist-remove' item.id %}">
-                                {% csrf_token %}
-                                <button type="submit">Remove</button>
-                            </form>
+                            <div class="wishlist-actions">
+                                <form method="POST" action="{% url 'wishlist-remove' item.id %}" style="display:inline;">
+                                    {% csrf_token %}
+                                    <button type="submit">Remove</button>
+                                </form>
+                                <form method="POST" action="{% url 'cart-add' item.product.id %}" style="display:inline;">
+                                    {% csrf_token %}
+                                    <button type="submit">Add to Cart</button>
+                                </form>
+                            </div>
                         </div>
                     </li>
                 {% endfor %}
@@ -56,8 +61,7 @@
     </section>
 
     <footer>
-        <p>&copy; 2025 Your Company</p>
+        <p>&copy; 2025 Digit</p>
     </footer>
 </body>
-
 </html>

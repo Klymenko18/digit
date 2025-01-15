@@ -3,6 +3,8 @@ from django.urls import include, path
 from products.views import product_list, CategoryProductsView
 from django.views.generic import TemplateView
 from .views import home
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -15,3 +17,6 @@ urlpatterns = [
     path('categories/<int:category_id>/products/', CategoryProductsView.as_view(), name='category-products'),
     path('wishlist/', include('wishlist.urls')),
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
