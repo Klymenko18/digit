@@ -6,8 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Shopping Cart</title>
     <link rel="stylesheet" href="{% static 'styles/cart.css' %}">
-    <script src="{% static 'cart.js' %}" defer></script>
-
 </head>
 <body>
     <header>
@@ -24,10 +22,26 @@
                     <th>Actions</th>
                 </tr>
             </thead>
-            <tbody id="cart-items"></tbody>
+            <tbody>
+                {% for item in cart_items %}
+                <tr>
+                    <td>{{ item.product.name }}</td>
+                    <td>${{ item.product.price }}</td>
+                    <td>{{ item.quantity }}</td>
+                    <td>${{ item.quantity|floatformat:2 }}</td>
+                    <td>
+                        <form method="POST" action="/cart/remove/">
+                            {% csrf_token %}
+                            <input type="hidden" name="product_id" value="{{ item.product.id }}">
+                            <button type="submit">Remove</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
         </table>
         <div class="cart-summary">
-            <p>Total Price: <span id="total-price">$0.00</span></p>
+            <p>Total Price: ${{ total_price|floatformat:2 }}</p>
         </div>
     </main>
     <footer>

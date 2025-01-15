@@ -1,3 +1,4 @@
+from django.shortcuts import render
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
@@ -11,8 +12,9 @@ class CartView(APIView):
 
     def get(self, request):
         cart, _ = Cart.objects.get_or_create(user=request.user)
-        serializer = CartSerializer(cart)
-        return Response(serializer.data)
+        cart_items = cart.cart_items.all()
+        total_price = sum(item.product.price * item.quantity for item in cart_items)
+        return render(request, 'cart.html', {'cart_items': cart_items, 'total_price': total_price})
 
 class AddToCartView(APIView):
     permission_classes = [IsAuthenticated]
@@ -41,21 +43,5 @@ class RemoveFromCartView(APIView):
             cart_item = CartItem.objects.get(cart=cart, product_id=product_id)
             cart_item.delete()
             return Response({"message": "Product removed from cart!"}, status=status.HTTP_204_NO_CONTENT)
-        except CartItem.DoesNotExist:
-            return Response({"error": "Item not found in cart"}, status=status.HTTP_404_NOT_FOUND)
-
-class UpdateCartView(APIView):
-    permission_classes = [IsAuthenticated]
-
-    def post(self, request):
-        product_id = request.data.get('product_id')
-        quantity = request.data.get('quantity', 1)
-
-        try:
-            cart = Cart.objects.get(user=request.user)
-            cart_item = CartItem.objects.get(cart=cart, product_id=product_id)
-            cart_item.quantity = int(quantity)
-            cart_item.save()
-            return Response({"message": "Cart updated!"}, status=status.HTTP_200_OK)
         except CartItem.DoesNotExist:
             return Response({"error": "Item not found in cart"}, status=status.HTTP_404_NOT_FOUND)
