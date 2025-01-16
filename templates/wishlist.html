@@ -5,8 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Your Wishlist</title>
-    <link rel="stylesheet" href="{% static 'css/wishlist.css' %}">
-    <script src="{% static 'js/wishlist.js' %}" defer></script>
+    <link rel="stylesheet" href="{% static 'styles/categories.css' %}">
+    {% block extra_styles %}{% endblock %}
 </head>
 <body>
     <header>
@@ -35,7 +35,11 @@
             {% if wishlist %}
                 {% for item in wishlist %}
                     <li class="wishlist-item">
-                        <img src="{{ item.product.image.url|default:'/static/img/default-image.png' }}" alt="{{ item.product.name }}" class="product-image">
+                        {% if item.product.image and item.product.image.url %}
+                            <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}" class="product-image">
+                        {% else %}
+                            <img src="{% static 'img/placeholder.png' %}" alt="No image available" class="product-image">
+                        {% endif %}
                         <div class="product-details">
                             <h3>{{ item.product.name }}</h3>
                             <p>{{ item.product.description }}</p>

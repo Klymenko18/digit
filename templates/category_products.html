@@ -35,10 +35,12 @@
                             <p>{{ product.price }} $</p>
 
                             {% if user.is_authenticated %}
-                                <form method="get" action="{% url 'cart-add' product.id %}">
+                                <form method="post" action="{% url 'cart-add' product.id %}">
+                                    {% csrf_token %}
                                     <button type="submit">Add to Cart</button>
                                 </form>
-                                <form method="get" action="/wishlist/add/{{ product.id }}/">
+                                <form method="post" action="/wishlist/add/{{ product.id }}/">
+                                    {% csrf_token %}
                                     <button type="submit">Add to Wishlist</button>
                                 </form>
                             {% endif %}

@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
@@ -19,7 +19,7 @@ class CartView(APIView):
 class AddToCartView(APIView):
     permission_classes = [IsAuthenticated]
 
-    def get(self, request, product_id):
+    def post(self, request, product_id):
         try:
             product = Product.objects.get(id=product_id)
         except Product.DoesNotExist:
@@ -30,7 +30,7 @@ class AddToCartView(APIView):
         cart_item.quantity += 1
         cart_item.save()
 
-        return Response({"message": f"Product '{product.name}' added to cart!"}, status=status.HTTP_201_CREATED)
+        return redirect(request.META.get('HTTP_REFERER', '/cart/'))
 
 class RemoveFromCartView(APIView):
     permission_classes = [IsAuthenticated]
